@@ -485,8 +485,11 @@ If not in such a search box, fall back on `Custom-newline'."
 ;;    evil-collection-setup-minibuffer t
 ;;    ))
 
-(map! :g "C-<escape>" #'evil-normal-state
-      :i "C-<escape>" #'evil-force-normal-state)
+(map! :g "C-<escape>" (cmd! (progn (evil-normal-state)
+                                   (evil-snipe-local-mode +1)
+                                   (evil-snipe-override-local-mode +1)))
+      :i "C-<escape>" #'evil-force-normal-state
+      )
 ;; (setq evil-want-minibuffer t)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -550,15 +553,14 @@ If not in such a search box, fall back on `Custom-newline'."
 ;; IRC
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; (after! circe
-;;   (set-irc-server! "chat.freenode.net"
-;;     `(:tls t
-;;       :port 6697
-;;       :nick "galagora"
-;;       :sasl-username "galagora"
-;;       :sasl-password "4XC5hWayA9"
-;;       :channels ("#emacs" ;; "#haskell-ide-engine"
-;;                  ))))
+(after! circe
+  (set-irc-server! "chat.freenode.net"
+    `(:tls t
+      :port 6697
+      :nick "galagora"
+      :sasl-username "galagora"
+      :sasl-password "4XC5hWayA9"
+      )))
 
 ;; (smartparens-global-mode -1)
 ;; (turn-off-smartparens-mode)
@@ -661,13 +663,43 @@ If not in such a search box, fall back on `Custom-newline'."
   (find-file (expand-file-name "configuration.nix" "~/my-conf/"))
   )
 
-(map! :leader :prefix "o"
-      "f" nil
-      (:prefix ("f" . "Open files")
-       ("n" #'g/goto-nix-conf
-        "d" #'doom/goto-private-config-file)
-       )
-      "F" #'make-frame
-      )
+(map!
+ :leader :prefix "o"
+ "f" nil
+ (:prefix ("f" . "Open files")
+  ("n" #'g/goto-nix-conf
+   "d" #'doom/goto-private-config-file)
+  )
+ "F" #'make-frame
+ )
 
 (setq standard-indent 2)
+;; (define-minor-mode g/evil-snipe-local-mode
+;;   "evil-snipe minor mode."
+;;   :lighter " snipe"
+;;   :group 'evil-snipe)
+;; (defun g/turn-on-evil-snipe-mode ()
+;;   "Enable evil-snipe-mode in the current buffer."
+;;   (unless (apply #'derived-mode-p evil-snipe-disabled-modes)
+;;     (evil-snipe-local-mode +1)))
+
+;; ;;;###autoload
+;; (defun g/turn-on-evil-snipe-override-mode ()
+;;   "Enable evil-snipe-mode in the current buffer."
+;;   (unless (apply #'derived-mode-p evil-snipe-disabled-modes)
+;;     (evil-snipe-override-local-mode +1)))
+
+;; (define-minor-mode g/evil-snipe-override-local-mode
+;;   "evil-snipe minor mode that overrides evil-mode f/F/t/T/;/, bindings."
+;;   :group 'evil-snipe)
+
+;; (define-globalized-minor-mode g/evil-snipe-mode
+;;   evil-snipe-local-mode turn-on-evil-snipe-mode)
+
+;; (define-globalized-minor-mode g/evil-snipe-override-mode
+;;   evil-snipe-override-local-mode turn-on-evil-snipe-override-mode)
+
+;; (turn-off-evil-snipe-mode)
+;; (turn-off-evil-snipe-override-mode)
+;; ;; (g/turn-on-evil-snipe-mode)
+;; ;; (g/turn-on-evil-snipe-override-mode)

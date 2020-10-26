@@ -9,6 +9,7 @@
  '(cider-shadow-cljs-parameters "cljs-repl")
  '(flycheck-idle-change-delay 0.3)
  '(global-display-fill-column-indicator-mode t)
+ '(lsp-ui-sideline-diagnostic-max-lines 100)
  '(safe-local-variable-values
    '((package-lint-main-file . "haskell-mode-pkg.el")
      (lsp-pyright-venv-path . "/home/ao/code/habit/.venv")))
@@ -19,3 +20,4 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(doom-modeline-buffer-modified ((t (:foreground "orange")))))
+(put 'customize-group 'disabled nil)
